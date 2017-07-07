@@ -1,0 +1,19 @@
+{
+  "apps": [
+    {
+      "name": "github:3014",
+      "script": "index.js",
+      "watch": ["server","index.js"],
+      //"exec_mode": "cluster",
+      //"instances": 0,
+      "exec_mode": "fork_mode",
+      "env": {
+        "NODE_ENV": "production",
+        "PORT": "3014"
+      },
+      "ignore_watch": [
+        "[\\/\\\\]\\./", "node_modules", "server/public", "server/log"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    meta(http-equiv="x-ua-compatible" content="ie=edge")
+    meta(name="githubclientid" content=params.githubclientid)
+    title Medialand GitHub Manager - 登入
+
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+    link(href="/css/vendor.css" rel="stylesheet")
+    style(type='text/css').
+      .btn {
+        text-shadow:none;
+      }
+  body.login
+    .login_wrapper#login-app
+        .animate.form.login_form
+          section.login_content
+            form
+              h1 Login
+              a.btn.btn-default.btn-block.color-special-color.submit(href="")
+                i.fa.fa-github
+                |  使用GitHub登入
+              p 請使用Medialand的Email登入GitHub
+              //- h1 Login Form
+              //- div
+              //-   input(type="text" class="form-control" placeholder="Username" required="" v-model.trim="uname" @keyup.enter="submit")
+              //- div
+              //-   input(type="password" class="form-control" placeholder="Password" required="" v-model.trim="upwd" @keyup.enter="submit")
+              //- .row
+              //-   .col-xs-6
+              //-     img(:src='codeimg' @click.prevent='reloadCodeImg')
+              //-   .col-xs-6
+              //-     input(type="text" class="form-control" placeholder="驗證碼" required="" v-model.trim="codes" @keyup.enter="submit")
+              //- div
+              //-   a.btn.btn-default.submit(href="" @click.prevent="submit") Log in
+
+              .clearfix
+
+              .separator
+                div
+                  h1 
+                    i.fa.fa-github
+                    |  GitHub Manager
+                  p ©2017 Medialand
+    script(src="/js/vendor.js")
+    script(src="/js/login.js")

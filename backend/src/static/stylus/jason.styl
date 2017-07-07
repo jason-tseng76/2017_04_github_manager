@@ -1,0 +1,64 @@
+$font-stack = "Helvetica Neue",Helvetica,"Microsoft JhengHei", Arial,sans-serif
+
+$colors = ('elegant-color' #2e2e2e #fff), ('elegant-color-dark' #212121 #fff),
+  ('stylish-color' #4B515D #fff), ('stylish-color-dark' #3E4551 #fff),
+  ('unique-color' #3F729B #fff), ('unique-color-dark' #1C2331 #fff),
+  ('special-color' #37474F #fff), ('special-color-dark' #263238 #fff),
+  ('red' #f44336 #fff),
+  ('red-accent-1' #ff8a80 #fff), ('red-accent-2' #ff5252 #fff),
+  ('red-accent-3' #ff1744 #fff), ('red-accent-4' #d50000 #fff),
+  ('pink' #e91e63 #fff),
+  ('pink-accent-1' #ff80ab #fff), ('pink-accent-2' #ff4081 #fff),
+  ('pink-accent-3' #f50057 #fff), ('pink-accent-4' #c51162 #fff),
+  ('purple' #9c27b0 #fff),
+  ('purple-accent-1' #ea80fc #fff), ('purple-accent-2' #e040fb #fff),
+  ('purple-accent-3' #d500f9 #fff), ('purple-accent-4' #aa00ff #fff),
+  ('indigo' #3f51b5 #fff),
+  ('indigo-accent-1' #8c9eff #fff), ('indigo-accent-2' #536dfe #fff),
+  ('indigo-accent-3' #3d5afe #fff), ('indigo-accent-4' #304ffe #fff),
+  ('blue' #2196f3 #fff),
+  ('blue-accent-1' #82b1ff #fff), ('blue-accent-2' #448aff #fff),
+  ('blue-accent-3' #2979ff #fff), ('blue-accent-4' #2962ff #fff),
+  ('cyan' #00bcd4 #fff),
+  ('cyan-accent-1' #00acc1 #fff), ('cyan-accent-2' #0097a7 #fff),
+  ('cyan-accent-3' #00838f #fff), ('cyan-accent-4' #006064 #fff),
+  ('teal' #009688 #fff),
+  ('teal-accent-1' #00897b #fff), ('teal-accent-2' #00796b #fff),
+  ('teal-accent-3' #00695c #fff), ('teal-accent-4' #004d40 #fff),
+  ('green' #4caf50 #fff),
+  ('lime' #cddc39 #fff),
+  ('yellow' #ffeb3b #fff),
+  ('amber' #ffc107 #fff),
+  ('orange' #ff9800 #fff),
+  ('brown' #795548 #fff),
+  ('grey' #9e9e9e #fff),
+  ('bluegrey' #607d8b #fff)
+
+html, body
+  margin: 0
+  padding: 0
+  font-family: $font-stack
+
+.login_content h1
+  font-family: $font-stack
+
+for $value in $colors
+  .color-{$value[0]}
+    background-color: $value[1]
+    color: $value[2]
+
+.fade-enter-active, .fade-leave-active
+  transition opacity .3s
+.fade-enter, .fade-leave-active
+  opacity 0
+
+.flex-cc
+  display flex
+  justify-content center
+  align-items center
+
+.panel_toolbox
+  min-width 0
+
+.swal2-modal
+  font-family $font-stack
