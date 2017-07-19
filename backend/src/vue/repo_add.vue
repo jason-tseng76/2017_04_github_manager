@@ -48,6 +48,57 @@
               .col-xs-12.flex-cc
                 button.btn.btn-default(type="button" @click="onCancel") 取消
                 button.btn.btn-success(type="button" @click="onSubmit") 送出
+          .inloading(v-if="!repoDone")
+            i.fa.fa-circle-o-notch.fa-spin
+
+        .x_panel(v-if="reponame !== ''")
+          .x_title
+            h3 WebHook
+            .clearfix
+            small
+              |這裡可以加上WebHook，當repo有push時就會通知。
+              br
+              |預設的網址是這個系統承接GitHub WebHook的網址，加入預設的WebHook網址後，下方會顯示可查詢Repo HEAD的網址，第三方可以藉由這個網址取得repo目前HEAD資訊。通常一開始加入WebHook時，資訊會是null，只要push過一次，就會顯示最新的HEAD。
+              br
+              |如果有自己想把WebHook接到別的網址，請自行填寫，並編寫程式。
+              br
+              |GitHub WebHook的payload請參考
+              a(href="https://developer.github.com/v3/repos/hooks/#receiving-webhooks" target="_blank")
+                |【官方文件
+                i.fa.fa-external-link
+                |】
+          .x_content
+            form.form-horizontal.form-label-left
+              .form-group(v-for="item in webhook" v-bind:key="item.id")
+                label.control-label.col-sm-3.col-xs-12
+                  | {{item.id}}
+                .col-sm-7.col-xs-12
+                  .col-sm-10
+                    .collaboratorsInfo
+                      .collaboratorsLogin(style="font-weight: 100;") {{item.config.url}}
+                      .collaboratorsEmail
+                        small 狀態：
+                        i.fa.fa-check(v-if="item.last_response.code === 200" style="color:green;")
+                        i.fa.fa-exclamation(v-if="item.last_response.code === 422" style="color:red;")
+                        i.fa.fa-question(v-if="item.last_response.code === 0" style="color:orange;")
+                        small  {{item.last_response.message}}
+                      .collaboratorsEmail(v-if="item.config.url === defaultHook")
+                        small
+                          a(v-bind:href="`http://github.medialand.tw/api/github/hookevent?q=${reponame}`" target="_blank")
+                            | 查詢網址
+                            i.fa.fa-external-link
+                  .col-sm-2
+                    button.btn.btn-danger(type="button" @click="delWebHook(item.id)") 刪除
+              .form-group
+                label.control-label.col-sm-3.col-xs-12
+                  | Add WebHook
+                .col-sm-7.col-xs-12
+                  .col-sm-10
+                    input.form-control(type="text" v-model='hookToAdd')
+                  .col-sm-2
+                    button.btn.btn-success(type="button" @click="addWebHook") 新增
+          .inloading(v-if="!hookDone")
+            i.fa.fa-circle-o-notch.fa-spin
 </template>
 <script>
 import { mapMutations, mapActions, mapGetters } from 'vuex';
@@ -60,6 +111,11 @@ export default {
       collaboratorsDisplay: [],
       colSelected: [],
       autoinit: false,
+      repoDone: false,
+      webhook: [],
+      hookDone: false,
+      defaultHook: 'http://github.medialand.tw/api/github/webhook',
+      hookToAdd: '',
     };
   },
   watch: {
@@ -91,7 +147,7 @@ export default {
   },
   methods: {
     ...mapMutations(['setCoverloading']),
-    ...mapActions(['addRepo', 'updateRepo', 'getuserlist', 'loadRepo', 'loadCollaborators']),
+    ...mapActions(['addRepo', 'updateRepo', 'getuserlist', 'loadRepo', 'loadCollaborators', 'loadHook', 'addHook', 'delHook']),
     onCancel() {
       this.$router.push('/repos');
     },
@@ -155,9 +211,12 @@ export default {
           this.colSelected.push(ele.login);
         }
       });
-      this.setCoverloading(false);
+      this.repoDone = true;
+      // this.setCoverloading(false);
     },
     fetchData(type) {
+      this.repoDone = false;
+      this.hookDone = false;
       const mtype = type || this.$route.params.type;
       if (mtype === 'add') return this.dealCollaboratorsList();
       this.reponame = mtype;
@@ -172,8 +231,48 @@ export default {
             }
           });
           this.dealCollaboratorsList();
+          this.fetchWebhook();
         }
       });
+    },
+    fetchWebhook() {
+      this.loadHook({ name: this.reponame }).then((d) => {
+        this.hookDone = true;
+        if (d.status === 'OK') {
+          if (d.data && d.data.length >= 0) {
+            this.webhook = d.data;
+          }
+        }
+      });
+    },
+    addWebHook() {
+      this.hookDone = false;
+      this.addHook({ name: this.reponame, url: this.hookToAdd }).then((d) => {
+        if (d.status === 'OK') {
+          this.hookToAdd = this.defaultHook;
+        } else {
+          swal('Oops', d.err.message, 'error');
+        }
+        this.fetchWebhook();
+      });
+    },
+    delWebHook(id) {
+      swal({
+        title: '確定?',
+        text: '刪錯了不要哭喔',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '不要囉嗦',
+        cancelButtonText: '對不起我錯了',
+      }).then(() => {
+        this.hookDone = false;
+        this.delHook({ name: this.reponame, id }).then((d) => {
+          if (d.status !== 'OK') {
+            swal('Oops', d.err.message, 'error');
+          }
+          this.fetchWebhook();
+        });
+      }, () => {});
     },
   },
   beforeRouteUpdate(to, from, next) {
@@ -183,12 +282,13 @@ export default {
     this.colSelected = [];
     this.autoinit = false;
     next();
-    this.setCoverloading(true);
+    // this.setCoverloading(true);
     this.fetchData(to.params.type);
   },
   created() {
+    this.hookToAdd = this.defaultHook;
     setTimeout(() => {
-      this.setCoverloading(true);
+      // this.setCoverloading(true);
       if (this.userlist.length === 0) {
         this.getuserlist().then(() => {
           this.fetchData();

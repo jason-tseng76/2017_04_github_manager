@@ -30,7 +30,12 @@ const jsfiles = [
   // js cookies
   'https://cdnjs.cloudflare.com/ajax/libs/js-cookie/latest/js.cookie.min.js',
   // bootstrap
+  // './node_modules/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js',
   'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
+  // Vue
+  // 'https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.min.js',
+  // 'https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.4.0/vue-router.min.js',
+  // 'https://unpkg.com/vuex',
   // sweetalert2
   'https://cdn.jsdelivr.net/sweetalert2/6.3.1/sweetalert2.min.js',
   // memont.js
@@ -39,17 +44,26 @@ const jsfiles = [
   'https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js',
   // Clipboard
   'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.16/clipboard.min.js',
+  // Google Charts
+  'https://www.gstatic.com/charts/loader.js',
+  // jquery-tagsinput
+  'https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.js',
+  // jquery-autocomplete
+  'https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.1/jquery.autocomplete.min.js',
   // template js
   './src/static/js/custom_es6.js',
 ];
 const cssfiles = [
   // bootstrap
+  // './node_modules/gentelella/vendors/bootstrap/dist/css/bootstrap.min.css',
   'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
   // sweetalert2
   'https://cdn.jsdelivr.net/sweetalert2/6.3.1/sweetalert2.min.css',
   // Bootstrap daterangepicker
   'https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css',
- 
+  // jquery-tagsinput
+  // 'https://cdnjs.cloudflare.com/ajax/libs/jquery-tagsinput/1.3.6/jquery.tagsinput.min.css',
+
   './src/static/css/custom.css',
   './src/static/css/jason.css',
 ];

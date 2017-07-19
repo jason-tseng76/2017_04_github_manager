@@ -117,6 +117,60 @@ const storemodule = {
         });
       });
     },
+    loadHook({ state, rootState }, data) {
+      return new Promise((resolve) => {
+        let rs = { status: 'ERROR', err: { message: 'unknown' } };
+        $.ajax({
+          url: `${config.AjaxUrl}/api/webhook/${data.name}`,
+          method: 'GET',
+          datatype: 'json',
+          headers: {
+            Authorization: `Bearer ${rootState.token}`,
+          },
+        }).done((d) => {
+          rs = d;
+        }).always(() => {
+          resolve(rs);
+        });
+      });
+    },
+    addHook({ state, rootState }, data) {
+      return new Promise((resolve) => {
+        let rs = { status: 'ERROR', err: { message: 'unknown' } };
+        $.ajax({
+          url: `${config.AjaxUrl}/api/webhook/${data.name}`,
+          method: 'POST',
+          datatype: 'json',
+          data: {
+            url: data.url,
+          },
+          headers: {
+            Authorization: `Bearer ${rootState.token}`,
+          },
+        }).done((d) => {
+          rs = d;
+        }).always(() => {
+          resolve(rs);
+        });
+      });
+    },
+    delHook({ state, rootState }, data) {
+      return new Promise((resolve) => {
+        let rs = { status: 'ERROR', err: { message: 'unknown' } };
+        $.ajax({
+          url: `${config.AjaxUrl}/api/webhook/${data.name}/${data.id}`,
+          method: 'DELETE',
+          datatype: 'json',
+          headers: {
+            Authorization: `Bearer ${rootState.token}`,
+          },
+        }).done((d) => {
+          rs = d;
+        }).always(() => {
+          resolve(rs);
+        });
+      });
+    },
   },
 };
 

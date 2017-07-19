@@ -8,5 +8,6 @@ module.exports = () => {
   require('./router/repo.js')(router);
   require('./router/auth.js')(router);
   require('./router/user.js')(router);
+  require('./router/webhook.js')(router);
   return router;
 };

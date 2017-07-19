@@ -35,6 +35,7 @@ app.all('/', (req, res) => {
   res.redirect('/repos');
 });
 app.get('/*', (req, res) => {
+  // res.render('./main.pug');
   res.render('./main');
 });
 
